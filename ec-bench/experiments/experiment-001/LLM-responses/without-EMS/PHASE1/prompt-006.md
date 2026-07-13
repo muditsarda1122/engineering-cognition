@@ -1,0 +1,8 @@
+mode: kimi k2.5
+
+All 8 tests pass.
+Test file	Tests	Status	What it guards
+test_stream_cancellation.py	4 (2 asyncio + 2 trio)	PASSED	Streaming endpoints must be cancellable without hanging. The test fires an infinite async generator (raw StreamingResponse and JSONL), cancels it after 3 seconds via anyio.move_on_after, and asserts the cancel was delivered. This guards the await anyio.sleep(0) checkpoints injected by _async_stream_raw (routing.py:681) and _async_stream_jsonl (routing.py:650), which prevent the generator from hanging when the producer is faster than the consumer.
+test_stream_json_validation_error.py	2	PASSED	Response validation errors in streaming endpoints must propagate to the client, not be silently swallowed. Both async (AsyncIterable[Item]) and sync (Iterable[Item]) generators yield an invalid item (price="not-a-number"), and the test asserts ResponseValidationError is raised. This guards the _serialize_data validation logic (routing.py:488-498) in the JSONL/SSE streaming path.
+test_stream_bare_type.py	2	PASSED	Streaming endpoints with bare type annotations (no generic parameter, e.g. AsyncIterable instead of AsyncIterable[Item]) should still stream correctly. The test verifies Content-Type: application/jsonl, status 200, and each line is valid JSON. This guards the JSONL streaming path when stream_item_field is None (line 487 — the _serialize_data falls back to jsonable_encoder + json.dumps).
+Note on test environment: The initial run failed due to missing/outdated dependencies (annotated_doc, typing_inspection, starlette<0.46.0, anyio<4.0.0, trio). After upgrading to the versions required by pyproject.toml (starlette>=0.46.0, anyio>=4.0.0, etc.), all 8 tests passed cleanly.
