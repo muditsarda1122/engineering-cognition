@@ -1,0 +1,304 @@
+# EC-Bench
+
+**EC-Bench (Engineering Cognition Benchmark)** is a benchmark for evaluating whether accumulated engineering understanding improves long-horizon software engineering.
+
+Modern coding agents are extremely capable at writing code, but almost every interaction still begins as an isolated reasoning session. They repeatedly reconstruct architectural decisions, debugging discoveries, implementation rationale, repository conventions, and engineering intent that previous sessions have already established.
+
+EC-Bench evaluates whether preserving and reusing that engineering understanding changes how software engineering is performed over time.
+
+---
+
+# Motivation
+
+Software engineering is fundamentally different from solving isolated programming problems.
+
+Real engineering work spans:
+
+- multiple implementation sessions
+- architecture discussions
+- debugging investigations
+- performance analysis
+- refactoring
+- validation
+- benchmarking
+- design revisions
+
+Human engineers continuously accumulate engineering understanding while working on a system.
+
+Current coding agents largely do not.
+
+EC-Bench investigates whether supplying accumulated **Engineering Cognition** changes engineering behaviour throughout an entire software engineering workflow.
+
+---
+
+# Benchmark Design
+
+Rather than evaluating isolated prompts, EC-Bench models a complete engineering task.
+
+The benchmark is intentionally designed to resemble a large software engineering ticket that an engineer might receive in industry.
+
+Instead of asking unrelated questions, every prompt continues work started by previous prompts.
+
+The benchmark therefore measures engineering continuity rather than one-off reasoning ability.
+
+---
+
+# Simulating a Real Engineering Workflow
+
+The benchmark follows a realistic software engineering lifecycle.
+
+The agent receives an implementation objective and progressively moves through the same phases that a human engineer would encounter while completing a feature.
+
+The prompts intentionally form a continuous engineering narrative.
+
+```
+Planning
+        ↓
+Investigation
+        ↓
+Architecture
+        ↓
+Implementation
+        ↓
+Validation
+        ↓
+Benchmarking
+        ↓
+Debugging
+        ↓
+Regression Investigation
+```
+
+Every prompt builds upon previous work.
+
+Later prompts assume that earlier engineering understanding already exists.
+
+---
+
+# Benchmark Phases
+
+The benchmark currently contains **30 prompts** divided into three major phases.
+
+## Phase 1 — Understanding & Design
+
+The first phase focuses on understanding the existing system.
+
+Typical engineering activities include:
+
+- repository exploration
+- implementation investigation
+- architecture analysis
+- planning
+- design decisions
+- implementation strategy
+
+The objective is to build engineering understanding before modifying the system.
+
+---
+
+## Phase 2 — Implementation
+
+The second phase performs the engineering work itself.
+
+Typical activities include:
+
+- implementation
+- refactoring
+- validation
+- testing
+- benchmarking
+
+The objective is to extend the existing system while preserving architectural continuity.
+
+---
+
+## Phase 3 — Debugging & Engineering Evolution
+
+The final phase introduces regressions and follow-up engineering work.
+
+Typical activities include:
+
+- debugging
+- regression investigation
+- lifecycle analysis
+- performance investigation
+- behavioural validation
+
+The objective is to evaluate whether previously accumulated engineering understanding improves long-horizon engineering tasks.
+
+---
+
+# Repository
+
+The benchmark uses the FastAPI repository as the engineering environment.
+
+FastAPI was chosen because it contains:
+
+- mature production-quality architecture
+- asynchronous execution
+- lifecycle management
+- dependency injection
+- streaming
+- validation
+- extensive test coverage
+
+This provides a realistic software engineering environment rather than an artificially simplified benchmark.
+
+---
+
+# Experimental Setup
+
+Two identical copies of the repository are used.
+
+```
+FastAPI Repository A
+        │
+        ├── Engineering Memory System enabled
+        │
+        └── Long-horizon engineering
+
+FastAPI Repository B
+        │
+        ├── No Engineering Memory
+        │
+        └── Stateless reasoning
+```
+
+The repositories begin from the same initial state.
+
+Both agents receive:
+
+- the same prompts
+- the same repository
+- the same model
+- the same engineering objective
+
+The **only independent variable** is whether accumulated Engineering Cognition is available.
+
+---
+
+# Repository Structure
+
+```
+experiment-001
+│
+├── LLM-responses
+│   ├── with-EMS
+│   └── without-EMS
+│
+├── prompts
+│
+├── results
+│   ├── with-EMS
+│   └── without-EMS
+│
+├── hypothesis.md
+├── metrics.md
+├── observations.md
+└── README.md
+```
+
+## LLM-responses
+
+Contains the complete responses generated by the coding agent.
+
+Responses are separated into:
+
+- with Engineering Cognition
+- without Engineering Cognition
+
+and grouped by benchmark phase.
+
+---
+
+## prompts
+
+Contains the benchmark prompts.
+
+Each prompt continues the previous engineering work.
+
+---
+
+## results
+
+Contains the evaluation results produced by the judge.
+
+Each response is independently evaluated using the benchmark metrics.
+
+---
+
+## config.md
+
+Describes the experimental configuration.
+
+This includes:
+
+- repository
+- model
+- judge
+- prompt count
+- benchmark configuration
+
+---
+
+## hypothesis.md
+
+Defines the research hypotheses being evaluated.
+
+The benchmark evaluates whether Engineering Cognition improves long-horizon software engineering across multiple engineering dimensions.
+
+---
+
+## metrics.md
+
+Defines the evaluation metrics used throughout EC-Bench.
+
+Unlike traditional benchmarks that focus primarily on correctness, EC-Bench evaluates *engineering behaviour*.
+
+The benchmark currently measures:
+
+- Architectural Continuity
+- Repository Groundedness
+- Engineering Cognition Reuse
+- Engineering Quality
+- Debugging & Investigation Efficiency
+
+Each metric is evaluated independently on a continuous **0–10** scale.
+
+Together these metrics measure how engineering understanding influences software engineering over long-running development workflows.
+
+---
+
+## observations.md
+
+Contains noteworthy findings observed while running the benchmark.
+
+This document records unexpected behaviours, interesting patterns, and lessons learned throughout the experiments.
+
+The observations will continue to evolve as additional benchmark runs are completed.
+
+---
+
+# Evaluation Philosophy
+
+EC-Bench intentionally evaluates **engineering process** rather than simply correctness.
+
+Many prompts have multiple technically correct solutions.
+
+The benchmark instead asks questions such as:
+
+- Did the agent preserve architectural continuity?
+- Did it understand the repository?
+- Did previous engineering understanding influence later work?
+- Did debugging become more systematic?
+- Did engineering reasoning compound over time?
+
+---
+
+# Current Status
+
+The benchmark is currently under active development.
+
+The engineering workflow, evaluation methodology, and Engineering Memory System continue to evolve as additional experiments are conducted.
+
+Experimental observations and analyses will be progressively documented as the benchmark matures.

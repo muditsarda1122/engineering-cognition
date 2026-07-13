@@ -1,15 +1,14 @@
 # Observations
 
-Unexpected findings encountered during the experiment.
+This document records noteworthy observations discovered while conducting EC-Bench experiments.
 
-Example:
+Examples include:
 
-Prompt 14 unexpectedly produced identical outputs.
+- unexpected benchmark behaviour
+- engineering reasoning patterns
+- retrieval strategy insights
+- judge behaviour
+- benchmark design improvements
+- Engineering Memory System refinements
 
-Possible explanation:
-
-Engineering cognition had not yet accumulated enough understanding.
-
-...
-
-Future experiments should investigate this.
+The document will continue to evolve as additional experiments are completed.
